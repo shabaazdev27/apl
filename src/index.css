@@ -1,72 +1,379 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+/* ── Design Tokens ──────────────────────────────────────────────────────────── */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-head: "Syne", sans-serif;
+  --font-head: "Outfit", sans-serif;
 
-  --color-bg: #060810;
-  --color-bg-alt: #0d1117;
-  --color-bg-card: #141920;
-  --color-accent: #00e5a0;
-  --color-accent-alt: #ff6b35;
-  --color-accent-purple: #7c6ef5;
-  --color-accent-yellow: #ffc93c;
-  --color-accent-blue: #38bdf8;
-  --color-danger: #ff4d6a;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-alt: rgba(255, 255, 255, 0.13);
-  --color-text-muted: #6b7280;
+  --color-bg: #0F172A;
+  --color-bg-alt: #020617;
+  --color-bg-card: #1E293B;
+  --color-bg-elevated: #334155;
+
+  --color-accent: #60A5FA;
+  --color-accent-dim: #3B82F6;
+  --color-accent-alt: #34D399;
+  --color-accent-purple: #A78BFA;
+  --color-accent-yellow: #FCD34D;
+  --color-accent-blue: #93C5FD;
+  --color-danger: #FCA5A5;
+
+  --color-border: rgba(255, 255, 255, 0.2);
+  --color-border-alt: rgba(255, 255, 255, 0.35);
+  --color-text-muted: #E2E8F0;
 }
 
+@media (prefers-contrast: more) {
+  @theme {
+    --color-bg: #000000;
+    --color-bg-card: #111111;
+    --color-accent: #FFFFFF;
+    --color-border: #FFFFFF;
+    --color-text-muted: #FFFFFF;
+  }
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 @layer base {
-  body {
-    @apply bg-bg text-gray-100 font-sans min-h-screen overflow-x-hidden selection:bg-accent/30;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(0, 229, 160, 0.05) 0%, transparent 50%),
-      linear-gradient(rgba(0, 229, 160, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 229, 160, 0.02) 1px, transparent 1px);
-    background-size: auto, 40px 40px, 40px 40px;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 
-  h1, h2, h3, h4 {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-gray-100 font-sans min-h-screen overflow-x-hidden text-lg;
+    selection-background-color: rgba(0, 229, 160, 0.25);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 229, 160, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 60%, rgba(124, 110, 245, 0.04) 0%, transparent 50%),
+      linear-gradient(rgba(0, 229, 160, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 229, 160, 0.015) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-head tracking-tight;
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 229, 160, 0.3);
+  }
+
+  /* Accessibility Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
 }
+
+/* ── Reusable Components ─────────────────────────────────────────────────── */
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(8, 13, 22, 0.9) 0%, rgba(14, 21, 32, 0.85) 100%);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1.25rem;
+  position: relative;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.glass-elevated {
+  background: rgba(19, 28, 42, 0.95);
+  backdrop-filter: blur(32px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
 
 .glowing-text {
-  @apply bg-linear-to-r from-accent to-accent-purple bg-clip-text text-transparent;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(0, 229, 160, 0.25));
 }
 
+/* ── Noise Overlay ──────────────────────────────────────────────────────── */
 .noise-overlay {
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
   z-index: 50;
 }
 
+/* ── Ticker ─────────────────────────────────────────────────────────────── */
 @keyframes scroll-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-scroll {
-  animation: scroll-left 40s linear infinite;
+  animation: scroll-left 50s linear infinite;
 }
 
-.glass-panel {
-  @apply bg-bg-alt/80 backdrop-blur-xl border border-border rounded-2xl;
+/* ── Glow Pulse ──────────────────────────────────────────────────────────── */
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 229, 160, 0.1), 0 0 30px rgba(0, 229, 160, 0.05);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(0, 229, 160, 0.2), 0 0 60px rgba(0, 229, 160, 0.08);
+  }
 }
 
+.glow-accent {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ── Shimmer loading ─────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  from {
+    background-position: -200% center;
+  }
+
+  to {
+    background-position: 200% center;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.03) 100%);
+  background-size: 200% auto;
+  animation: shimmer 2s linear infinite;
+}
+
+/* ── Auto-trigger Countdown Ring ─────────────────────────────────────────── */
+@keyframes ring-spin {
+  from {
+    stroke-dashoffset: 283;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.countdown-ring {
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+}
+
+/* ── Chat Panel ──────────────────────────────────────────────────────────── */
+.chat-panel {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 0.625rem 0.875rem;
+  border-radius: 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.chat-bubble.user {
+  background: linear-gradient(135deg, rgba(0, 229, 160, 0.15), rgba(0, 229, 160, 0.08));
+  border: 1px solid rgba(0, 229, 160, 0.25);
+  color: #e2e8f0;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.chat-bubble.assistant {
+  background: rgba(19, 28, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  border-bottom-left-radius: 0.25rem;
+}
+
+/* ── Typing indicator ────────────────────────────────────────────────────── */
+@keyframes typing-dot {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.typing-dot:nth-child(1) {
+  animation: typing-dot 1.2s ease-in-out infinite 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation: typing-dot 1.2s ease-in-out infinite 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation: typing-dot 1.2s ease-in-out infinite 0.4s;
+}
+
+/* ── Status Badge ────────────────────────────────────────────────────────── */
+@keyframes live-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.live-dot {
+  animation: live-blink 1.5s ease-in-out infinite;
+}
+
+/* ── Button Interactions ─────────────────────────────────────────────────── */
+.btn-primary {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dim));
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(0, 229, 160, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 229, 160, 0.15);
+}
+
+/* ── Agent Card Active State ─────────────────────────────────────────────── */
+@keyframes agent-active {
+
+  0%,
+  100% {
+    border-color: rgba(0, 229, 160, 0.2);
+  }
+
+  50% {
+    border-color: rgba(0, 229, 160, 0.6);
+  }
+}
+
+.agent-active {
+  animation: agent-active 1s ease-in-out infinite;
+}
+
+/* ── Custom scrollbar ────────────────────────────────────────────────────── */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-border-alt rounded-full;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
 }
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 160, 0.2);
+}
+
 .custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
+}
+
+/* ── Auto-trigger progress bar ───────────────────────────────────────────── */
+@keyframes auto-progress {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.auto-trigger-bar {
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-purple));
+  border-radius: 999px;
 }

@@ -1,0 +1,11 @@
+.gcloudignore
+.git
+.gitignore
+node_modules
+dist
+.env
+.env.local
+tests
+coverage
+*.md
+deploy-gcp.ps1

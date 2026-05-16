@@ -5,6 +5,23 @@ export interface Match {
   description: string;
   matchId?: string;
   seriesId?: string;
+  team1Id?: string;
+  team2Id?: string;
+  team1?: {
+    name: string;
+    runs?: number;
+    wickets?: number;
+    overs?: string;
+    isBatting?: boolean;
+  };
+  team2?: {
+    name: string;
+    runs?: number;
+    wickets?: number;
+    overs?: string;
+    isBatting?: boolean;
+  };
+  status?: string;
 }
 
 export async function getCurrentMatches(): Promise<Match[]> {
@@ -29,4 +46,13 @@ export async function getMatchSquad(seriesId: string, matchId: string): Promise<
     return null;
   }
 }
-
+export async function getTeamPlayers(teamId: string): Promise<any> {
+  try {
+    const res = await fetch(`/api/team-players?teamId=${teamId}`);
+    if (!res.ok) throw new Error("Failed to fetch team players");
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}

@@ -61,5 +61,13 @@ export interface PlayerPick {
     avgRuns: number;
     wickets: number;
     strikeRate: number;
+    economy: number;
+    form: number; // 0-100
+    consistency: number; // 0-100
   };
+}
+
+export interface SquadData {
+  team1: { name: string; players: string[] };
+  team2: { name: string; players: string[] };
 }

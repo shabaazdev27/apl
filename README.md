@@ -1,6 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-
 # 🏏 CricketMind AI: The Agentic Broadcast Experience
 **Harnessing the power of 9 autonomous agents to redefine cricket analytics.**
 
@@ -143,6 +140,6 @@ graph TD
 
 ---
 <p align="center">
-  <b>Built for the Google AI Hackathon 2024</b><br>
+  <b>Built for the Google Build With AI APL Challenge 2026</b><br>
   <i>Redefining the game with 9 agents and the power of Gemini.</i>
 </p>

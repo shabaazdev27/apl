@@ -1,0 +1,6 @@
+{
+  "name": "CricketMind AI",
+  "description": "An autonomous multi-agent intelligence platform for real-time cricket matches, featuring live commentary, win predictions, and tactical insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
